@@ -4,53 +4,32 @@ import ListaDeNotas from "./components/ListaDeNotas";
 import ListaCategorias from "./components/ListaCategorias/ListaCategorias";
 import "./assets/App.css";
 import "./assets/index.css";
+import Categorias from "./dados/Categorias";
+import ArrayNotas from "./dados/Notas";
 
 class App extends Component {
 
   constructor() {
     super()
-    this.state = {
-      notas: [],
-      categorias: []
-    }
+    this.categorias = new Categorias()
+    this.notas = new ArrayNotas()
   }
   
-  criarNota(titulo, texto, categoria) {
-    const novaNota = {titulo, texto, categoria}
-    const novoArryNotas = [...this.state.notas, novaNota]
-    const novoEstado = {
-      notas: novoArryNotas
-    }
-    this.setState(novoEstado)
-  }
-
-  deletarNota(index) {
-    let arrayNotas = this.state.notas
-    arrayNotas.splice(index, 1)
-    this.setState({notas: arrayNotas})
-  }
-
-  adicionarCategoria(nomeCategoria) {
-    const novoArrayCategorias = [...this.state.categorias, nomeCategoria]
-    const novoEstado = {...this.state, categorias:novoArrayCategorias}
-    this.setState(novoEstado)
-  }
-
   render() {
     return (
         <section className="conteudo">
           <FormularioCadastro 
-            categorias={this.state.categorias}
-            criarNota={this.criarNota.bind(this)}
+            categorias={this.categorias.categorias}
+            criarNota={this.notas.adicionarNota}
           />
           <main className="conteudo-principal">
             <ListaCategorias 
-              categorias={this.state.categorias}
-              adicionarCategoria={this.adicionarCategoria.bind(this)}
+              categorias={this.categorias.categorias}
+              adicionarCategoria={this.categorias.adicionarCategoria}
             />
             <ListaDeNotas 
-              notas={this.state.notas}
-              apagarNota={this.deletarNota.bind(this)}
+              notas={this.notas.notas}
+              apagarNota={this.notas.apagarNotas}
             />
           </main>
         </section>
